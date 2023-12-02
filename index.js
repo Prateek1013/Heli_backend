@@ -40,8 +40,12 @@ app.get('/filter',(req,res)=>{
     available:(req.query.available=="Select Available"?null:(req.query.available=='true'?true:false)),
     gender:(req.query.gender=="Select Gender"?null:req.query.gender)
  }
- console.log(obj);
- const filterData=dat.filter((item) => (item.domain==obj.domain && item.available==obj.available && item.gender==obj.gender))
+ //sequential filter logic
+ var filterData=dat;
+ if(obj.domain) filterData=filterData.filter(item=>item.domain==obj.domain)
+ if(obj.available) filterData=filterData.filter(item=>item.available===obj.available)
+ if(obj.gender) filterData=filterData.filter(item=>item.gender==obj.gender)
+ console.log(filterData.length)
  res.json(filterData);
 
 })
