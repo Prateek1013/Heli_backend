@@ -1,9 +1,12 @@
 const express=require("express");
 
 const app=express();
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());
 const cors=require('cors');
 const mongoose = require('mongoose');
 const User=require('./Model/user_model');
+const Team=require('./Model/team_model');
 const PORT = process.env.PORT || 4000;
 const dotenv=require("dotenv").config()
 const env=process.env
@@ -48,6 +51,15 @@ app.get('/filter',(req,res)=>{
  console.log(filterData.length)
  res.json(filterData);
 
+})
+
+app.post('/addTeam',async (req,res)=>{
+ const x=req.body;
+ console.log(x);
+ const xy=await Team.create({
+    users:x
+ });
+ res.sendStatus(200);
 })
 
 app.listen(PORT,()=>{
