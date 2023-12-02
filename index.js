@@ -1,11 +1,16 @@
 const express=require("express");
+
 const app=express();
 const cors=require('cors');
 const mongoose = require('mongoose');
 const User=require('./Model/user_model');
 const PORT = process.env.PORT || 4000;
-MONGO_URL="mongodb+srv://prateek9771196112:NygzKXgtL3effsJO@cluster0.zxqncfm.mongodb.net/heliverse?retryWrites=true&w=majority"
+const dotenv=require("dotenv").config()
+const env=process.env
 app.use(cors());
+
+MONGO_URL=`mongodb+srv://${env.MONGO_USERNAME}:${env.MONGO_PASSWORD}@${env.MONGO_CLUSTER}.mongodb.net/heliverse?retryWrites=true&w=majority`
+
 mongoose.connect(MONGO_URL)
 .then(()=>{
     console.log("DB connected");
@@ -26,6 +31,7 @@ app.get('/getAllgenders',(req,res)=>{
    const uniqueGender=[...new Set(dat.map(item=>item.gender))];
    res.json(uniqueGender);
 })
+
 
 //implement filter logic
 app.get('/filter',(req,res)=>{
