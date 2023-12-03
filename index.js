@@ -55,11 +55,25 @@ app.get('/filter',(req,res)=>{
 
 app.post('/addTeam',async (req,res)=>{
  const x=req.body;
- console.log(x);
  const xy=await Team.create({
     users:x
  });
  res.sendStatus(200);
+})
+
+app.get('/getallTeams',async (req,res)=>{
+const teams=await Team.find();
+res.json(teams);
+})
+
+app.delete('/deleteTeam',(req,res)=>{
+    const id=req.query.id;
+    Team.deleteOne({_id:id}).then(()=>{
+        console.log("Deleted");
+        res.sendStatus(200);
+    }).catch((err)=>{
+        console.log(err);
+    })
 })
 
 app.listen(PORT,()=>{
